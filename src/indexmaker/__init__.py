@@ -15,7 +15,7 @@ def dir_search(path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-i", required=True, dest="input_dir", help="Input dir path")
+    parser.add_argument("-i", required=True, dest="input_dir", help="Input dir or file path")
     parser.add_argument("-o", required=True, dest="output_file", help="Output json file")
     args = parser.parse_args()
 
