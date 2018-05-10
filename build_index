@@ -1,0 +1,10 @@
+#!/bin/bash
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+IFS=$'\n'
+
+mkdir -p $DIR/indexed
+
+for author in $(ls dataset)
+do
+    python src/indexmaker/__init__.py -i $DIR/dataset/$author/ -o $DIR/indexed/$author.json
+done
