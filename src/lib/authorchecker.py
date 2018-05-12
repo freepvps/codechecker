@@ -23,13 +23,12 @@ class Checker(object):
         x = tf.abs(tf.multiply(self.delta_input, self.weights))
         l = tf.reduce_sum(x, axis=1)
         self.answer = tf.subtract(1.0, tf.nn.sigmoid(tf.add(l, self.bias)))
-        self.saver = tf.train.Saver()
 
     def save(self, sess, path):
-        self.saver.save(sess, path)
+        tf.train.Saver().save(sess, path)
 
     def restore(self, sess, path):
-        self.saver.restore(sess, path)
+        tf.train.Saver().restore(sess, path)
 
     def get_input(self):
         return self.delta_input
