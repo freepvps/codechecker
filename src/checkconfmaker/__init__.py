@@ -54,7 +54,7 @@ if __name__ == "__main__":
 
         loss = tf.reduce_mean(tf.pow(tf.subtract(model.get_answer(), answers), 2.0))
 
-        optimizer = tf.train.GradientDescentOptimizer(learning_rate=1).minimize(loss)
+        optimizer = tf.train.GradientDescentOptimizer(learning_rate=10).minimize(loss)
         with tf.Session() as sess:
             tf.global_variables_initializer().run()
             for i in range(1000):
