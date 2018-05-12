@@ -25,6 +25,14 @@ def load_data(path, files_count):
 
 
 if __name__ == "__main__":
+    def get_available_gpus():
+        local_device_protos = device_lib.list_local_devices()
+        return [x.name for x in local_device_protos if x.device_type == 'GPU']
+
+
+    target_device = "/gpu:0" if get_available_gpus() else "/cpu:0"
+    print(target_device)
+
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", required=True, dest="dataset_dir", help="Input dataset path")
     parser.add_argument("-s", required=False, dest="files_count", help="Repository files count", default=10)
@@ -37,18 +45,19 @@ if __name__ == "__main__":
     answers_raw = [1.0 if a1 == a2 else 0.0 for a1 in data_labels for a2 in data_labels]
     mean_answers = np.mean(answers_raw)
 
-    answers = tf.constant(answers_raw)
+    with tf.device(target_device):
+        answers = tf.constant(answers_raw)
 
-    model = lib.authorchecker.Checker(len(deltas[0]))
+        model = lib.authorchecker.Checker(len(deltas[0]))
 
-    loss = tf.reduce_mean(tf.pow(tf.subtract(model.get_answer(), answers), 2.0))
+        loss = tf.reduce_mean(tf.pow(tf.subtract(model.get_answer(), answers), 2.0))
 
-    optimizer = tf.train.AdamOptimizer(learning_rate=0.1).minimize(loss)
-    with tf.Session() as sess:
-        tf.global_variables_initializer().run()
-        for i in range(1000):
-            _, loss_val = sess.run((optimizer, loss), feed_dict={
-                model.get_input(): deltas
-            })
-            print(i, loss_val, mean_answers)
-        model.save(sess, args.output_file)
+        optimizer = tf.train.AdamOptimizer(learning_rate=0.1).minimize(loss)
+        with tf.Session() as sess:
+            tf.global_variables_initializer().run()
+            for i in range(1000):
+                _, loss_val = sess.run((optimizer, loss), feed_dict={
+                    model.get_input(): deltas
+                })
+                print(i, loss_val, mean_answers)
+            model.save(sess, args.output_file)
