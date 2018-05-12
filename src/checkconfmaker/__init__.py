@@ -7,6 +7,8 @@ import argparse
 import numpy as np
 import tensorflow as tf
 
+from tensorflow.python.client import device_lib
+
 
 def load_data(path, files_count):
     dirs = [x for x in os.listdir(path) if os.path.isdir(os.path.join(path, x))]
