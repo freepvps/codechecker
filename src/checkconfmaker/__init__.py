@@ -58,8 +58,8 @@ if __name__ == "__main__":
         with tf.Session() as sess:
             tf.global_variables_initializer().run()
             for i in range(1000):
-                _, loss_val = sess.run((optimizer, loss), feed_dict={
+                _, loss_val, weight_val, bias_val = sess.run((optimizer, loss, model.weights, model.bias), feed_dict={
                     model.get_input(): deltas
                 })
-                print(i, loss_val, mean_answers)
+                print(i, loss_val, mean_answers, weight_val, bias_val)
             model.save(sess, args.output_file)
