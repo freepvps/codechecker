@@ -34,7 +34,10 @@ if __name__ == "__main__":
     data_vecs, data_labels = load_data(args.dataset_dir, args.files_count)
 
     deltas = [np.array(v1) - np.array(v2) for v1 in data_vecs for v2 in data_vecs]
-    answers = tf.constant([1.0 if a1 == a2 else 0.0 for a1 in data_labels for a2 in data_labels])
+    answers_raw = [1.0 if a1 == a2 else 0.0 for a1 in data_labels for a2 in data_labels]
+    mean_answers = np.mean(answers_raw)
+
+    answers = tf.constant(answers_raw)
 
     model = lib.authorchecker.Checker(len(deltas[0]))
 
@@ -47,5 +50,5 @@ if __name__ == "__main__":
             _, loss_val = sess.run((optimizer, loss), feed_dict={
                 model.get_input(): deltas
             })
-            print(i, loss_val)
+            print(i, loss_val, mean_answers)
         model.save(sess, args.output_file)
