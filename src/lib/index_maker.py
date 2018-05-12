@@ -28,7 +28,7 @@ def make_index(sentences):
     :rtype: list[np.ndarray]
     """
 
-    sigm = math.sqrt(1)
+    sigm = math.sqrt(0.1)
 
     features = [map(str, code2features.extract_features(sentence)) for sentence in sentences]
     w2v_model = Word2Vec(features, size=2, window=7, min_count=2, workers=1)
