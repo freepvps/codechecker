@@ -50,5 +50,4 @@ def make_index(sentences):
                 dist_matrix[i][j] = np.linalg.norm(v1 - v2)
     probs = [distance_to_probability(v, sigm) for v in dist_matrix]
     flatten_probs = np.array(probs).flatten()
-    log_flatten_probs = np.log(flatten_probs)
     return np.ndarray.tolist(flatten_probs)

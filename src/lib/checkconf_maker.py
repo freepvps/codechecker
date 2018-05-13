@@ -3,6 +3,7 @@ import numpy as np
 
 
 def train(vecs, answers):
+    classes = 10
     vec_dim = len(vecs[0])
     dvecs = [np.array(v1) - np.array(v2) for v1 in vecs for v2 in vecs]
     ans_vec = [0.0 if a1 == a2 else 1.0 for a1 in answers for a2 in answers]
@@ -14,18 +15,18 @@ def train(vecs, answers):
 
     weights = tf.get_variable(
         "weights",
-        shape=(vec_dim,),
+        shape=(vec_dim,classes),
         dtype=tf.float32,
         initializer=initializer
     )
     bias = tf.get_variable(
         "bias",
-        shape=(),
+        shape=(classes, ),
         dtype=tf.float32,
         initializer=initializer
     )
 
-    x = tf.abs(tf.multiply(input_vecs, weights))
+    x = tf.abs(tf.matmul(input_vecs, weights))
     l = tf.reduce_sum(x, axis=1)
     result = tf.nn.sigmoid(tf.add(l, bias))
     loss = tf.reduce_mean(tf.pow(tf.subtract(result, output_ans), 2.0))

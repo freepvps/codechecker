@@ -4,25 +4,26 @@ from code2features import TokenType
 
 class Checker(object):
     def __init__(self, index_size=TokenType.size):
+        checker_classes = 2
         self.delta_input = tf.placeholder(shape=(None, index_size), dtype=tf.float32)
         initializer = tf.truncated_normal_initializer(mean=0.0, stddev=1, seed=1234567, dtype=tf.float32)
 
         self.weights = tf.get_variable(
             "weights",
-            shape=(index_size,),
+            shape=(index_size,checker_classes),
             dtype=tf.float32,
             initializer=initializer
         )
         self.bias = tf.get_variable(
             "bias",
-            shape=(),
+            shape=(checker_classes,),
             dtype=tf.float32,
             initializer=initializer
         )
 
-        x = tf.abs(tf.multiply(self.delta_input, self.weights))
-        l = tf.reduce_sum(x, axis=1)
-        self.answer = tf.subtract(1.0, tf.nn.sigmoid(tf.add(l, self.bias)))
+        x = tf.matmul(tf.abs(self.delta_input), self.weights)
+        l = tf.reduce_mean(tf.nn.sigmoid(tf.add(x, self.bias)))
+        self.answer = tf.subtract(1.0, l)
 
     def save(self, sess, path):
         tf.train.Saver().save(sess, path)
