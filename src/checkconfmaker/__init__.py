@@ -59,7 +59,7 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", required=True, dest="dataset_dir", help="Input dataset path")
-    parser.add_argument("-s", required=False, dest="files_count", help="Repository files count", default=10)
+    parser.add_argument("-s", required=False, type=int, dest="files_count", help="Repository files count", default=10)
     parser.add_argument("-o", required=True, dest="output_file", help="Output model")
     parser.add_argument("-v", required=False, type=float, dest="validation_prc", help="Validation %", default=0.0)
     parser.add_argument("-r", required=False, type=int, dest="random_seed", help="Random seed for validation", default=1234567)
