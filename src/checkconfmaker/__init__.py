@@ -58,7 +58,7 @@ if __name__ == "__main__":
         with tf.Session() as sess:
             tf.global_variables_initializer().run()
             for i in range(1000):
-                _, loss_val, answer_val = sess.run((optimizer, loss, model.answer), feed_dict={
+                _, loss_val, answer_val, weight_val = sess.run((optimizer, loss, model.answer, model.weights), feed_dict={
                     model.get_input(): deltas
                 })
                 valid_count = 0.0
@@ -68,4 +68,5 @@ if __name__ == "__main__":
                     else:
                         valid_count += 1 if v < 0.5 else 0
                 print(i, loss_val, 1.0 - valid_count / len(answers_raw), mean_answers)
+                print(weight_val[0])
             model.save(sess, args.output_file)
