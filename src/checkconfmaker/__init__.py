@@ -96,23 +96,25 @@ def main():
 
             optimizer = tf.train.AdamOptimizer(learning_rate=0.1).minimize(loss)
             tf.global_variables_initializer().run()
+            perfect_state = (0.0, 0.0, 0.0)
             for i in range(10000):
                 _, loss_val, answer_val = sess.run((optimizer, loss, model_answers))
-                accuracy, precision, recall = calc_metrics(answers_raw, answer_val)
-                if i % 100 == 0:
-                    model.save(sess, args.output_file)
+                accuracy, precision, recall = cur_state = calc_metrics(answers_raw, answer_val)
                 print("{}. loss={}, accuracy={}, precision={}, recall={}".format(i, loss_val, accuracy, precision, recall))
 
                 if validation_size:
                     answer_val_valid = sess.run(model_answers_valid)
-                    accuracy_valid, precision_valid, recall_valid = calc_metrics(answers_raw_valid, answer_val_valid)
+                    accuracy_valid, precision_valid, recall_valid = cur_state = calc_metrics(answers_raw_valid, answer_val_valid)
                     print("{}. VALIDATION accuracy={}, precision={}, recall={}".format(
-                        i,
-                        accuracy_valid,
-                        precision_valid,
-                        recall_valid
+                            i,
+                            accuracy_valid,
+                            precision_valid,
+                            recall_valid
+                        )
                     )
-                    )
+                if i % 100 == 0 and cur_state > perfect_state:
+                    perfect_state = cur_state
+                    model.save(sess, args.output_file)
         model.save(sess, args.output_file)
 
 if __name__ == "__main__":
