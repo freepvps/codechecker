@@ -72,4 +72,4 @@ class TokenType(object):
             size += 1
     for k, v in sorted(locals().iteritems()):
         if v == ignorefield:
-            locals()[k] = is_shit
+            locals()[k] = is_unknown
