@@ -181,11 +181,11 @@ parsers = [
 ]
 
 
-def parse(ts, with_shit=True):
+def parse(ts, with_unknown=True):
     """
     :type ts: list[str]
     :param ts: list of raw tokens
-    :param with_shit: allow shit-tokens
+    :param with_unknown: allow shit-tokens
     :return: list of parse Tokens
     :rtype: list[Token]
     """
@@ -202,10 +202,10 @@ def parse(ts, with_shit=True):
             ans.append(token_type)
         else:
             tokens.popleft()
-            if with_shit:
-                ans.append(TokenType.is_shit)
+            if with_unknown:
+                ans.append(TokenType.is_unknown)
 
-    if with_shit:
+    if with_unknown:
         return ans
     else:
-        return [x for x in ans if x != TokenType.is_shit]
+        return [x for x in ans if x != TokenType.is_unknown]

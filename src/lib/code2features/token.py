@@ -62,7 +62,7 @@ class TokenType(object):
     is_short_comment = field
     is_long_comment = field
 
-    is_shit = field
+    is_unknown = field
     size = 0
     names = {}
     for k, v in sorted(locals().iteritems()):
