@@ -102,7 +102,7 @@ def main():
                 if i % 100 == 0:
                     model.save(sess, args.output_file)
                 print("{}. loss={}, accuracy={}, precision={}, recall={}".format(i, loss_val, accuracy, precision, recall))
-                
+
                 if validation_size:
                     answer_val_valid = sess.run(model_answers_valid)
                     accuracy_valid, precision_valid, recall_valid = calc_metrics(answers_raw_valid, answer_val_valid)
