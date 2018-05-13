@@ -3,9 +3,12 @@ from code2features import TokenType
 
 
 class Checker(object):
-    def __init__(self, index_size=TokenType.size * TokenType.size):
+    def __init__(self, index_size=TokenType.size * TokenType.size, constant_input=None):
         checker_classes = 3
-        self.delta_input = tf.placeholder(shape=(None, index_size), dtype=tf.float32)
+        if constant_input is not None:
+            self.delta_input = tf.constant(constant_input, dtype=tf.float32)
+        else:
+            self.delta_input = tf.placeholder(shape=(None, index_size), dtype=tf.float32)
         initializer = tf.truncated_normal_initializer(mean=0.0, stddev=1, seed=1234567, dtype=tf.float32)
 
         self.weights = tf.get_variable(

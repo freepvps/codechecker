@@ -53,7 +53,7 @@ if __name__ == "__main__":
 
     answers = tf.constant(answers_raw)
 
-    model = lib.authorchecker.Checker(len(deltas[0]))
+    model = lib.authorchecker.Checker(len(deltas[0]), deltas)
 
     with tf.Session() as sess:
         with tf.device(target_device):
@@ -62,9 +62,7 @@ if __name__ == "__main__":
             optimizer = tf.train.AdamOptimizer(learning_rate=0.1).minimize(loss)
             tf.global_variables_initializer().run()
             for i in range(1000):
-                _, loss_val, answer_val = sess.run((optimizer, loss, model.answer), feed_dict={
-                    model.get_input(): deltas
-                })
+                _, loss_val, answer_val = sess.run((optimizer, loss, model.answer))
                 tp = 0.00001
                 tn = 0.00001
                 fp = 0.00001
