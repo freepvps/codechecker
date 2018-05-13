@@ -10,19 +10,19 @@ class TokenType(object):
     is_newline = field
     is_bracket_s_1 = field # {
     is_bracket_e_1 = field # }
-    is_bracket_s_2 = field # [
-    is_bracket_e_2 = field # ]
+    is_bracket_s_2 = ignorefield # [
+    is_bracket_e_2 = ignorefield # ]
     is_bracket_s_3 = field # (
     is_bracket_e_3 = field # )
     is_dot = field # .
-    is_comma = field # ,
+    is_comma = ignorefield # ,
     is_dotcomma = field # ;
 
     is_op_for = field
     is_op_if = field
     is_op_while = field
-    is_op_try = field
-    is_op_catch = field
+    is_op_try = ignorefield
+    is_op_catch = ignorefield
     is_op_finally = field
 
     is_camel_case_word = field

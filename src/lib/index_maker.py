@@ -1,7 +1,7 @@
 import types
 import math
 import numpy as np
-import lib.code2features as code2features
+import code2features
 from gensim.models.word2vec import Word2Vec
 
 

@@ -163,4 +163,7 @@ def parse(ts, with_shit=False):
             if with_shit:
                 ans.append(TokenType.is_shit)
 
-    return ans
+    if with_shit:
+        return ans
+    else:
+        return [x for x in ans if x != TokenType.is_shit]
