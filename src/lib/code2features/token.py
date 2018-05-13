@@ -22,7 +22,7 @@ class TokenType(object):
     is_op_while = field
     is_op_try = field
     is_op_catch = field
-    is_op_ = field
+    is_op_finally = field
 
     is_camel_case_word = field
     is_lower_case_word = field
