@@ -19,7 +19,19 @@ char_mapping = {
     ',': TokenType.is_comma,
     ';': TokenType.is_dotcomma,
 
-    '@': TokenType.is_dog
+    '@': TokenType.is_dog,
+
+    '=': TokenType.is_op_set,
+    '&': TokenType.is_op_binmath,
+    '|': TokenType.is_op_binmath,
+    '^': TokenType.is_op_binmath,
+    '!': TokenType.is_op_binmath,
+
+    '%': TokenType.is_op_math,
+    '/': TokenType.is_op_math,
+    '-': TokenType.is_op_math,
+    '+': TokenType.is_op_math,
+    '*': TokenType.is_op_math,
 }
 
 op_mapping = {
@@ -47,7 +59,7 @@ op_mapping = {
     'double': TokenType.is_type_double,
     'char': TokenType.is_type_char,
     'String': TokenType.is_type_string,
-    'boolean': TokenType.is_type_boolean,
+    'boolean': TokenType.is_type_boolean
 }
 
 

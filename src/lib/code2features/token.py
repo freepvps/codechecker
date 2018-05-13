@@ -35,6 +35,10 @@ class TokenType(object):
 
     is_op_void = field
 
+    is_op_set = field
+    is_op_math = field
+    is_op_binmath = field
+
     is_type_byte = field
     is_type_short = field
     is_type_int = field
