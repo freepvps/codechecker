@@ -4,7 +4,7 @@ from code2features import TokenType
 
 class Checker(object):
     def __init__(self, index_size=TokenType.size*TokenType.size):
-        checker_classes = 1
+        checker_classes = 3
         self.delta_input = tf.placeholder(shape=(None, index_size), dtype=tf.float32)
         initializer = tf.truncated_normal_initializer(mean=0.0, stddev=1, seed=1234567, dtype=tf.float32)
 
@@ -41,7 +41,7 @@ class Checker(object):
         t0 = tf.matmul(x, self.postweight)
         t = tf.nn.sigmoid(tf.add(t0, self.postbias))
 
-        self.answer = tf.subtract(1.0, tf.reduce_mean(x, axis=1))
+        self.answer = tf.subtract(1.0, tf.reduce_mean(t, axis=1))
         self.saver = tf.train.Saver()
 
     def save(self, sess, path):
