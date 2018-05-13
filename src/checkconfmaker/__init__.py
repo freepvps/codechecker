@@ -53,7 +53,7 @@ if __name__ == "__main__":
 
     answers = tf.constant(answers_raw)
 
-    model = lib.authorchecker.Checker(len(deltas[0]), deltas)
+    model = lib.authorchecker.Checker(len(deltas[0]), np.array(deltas))
 
     with tf.Session() as sess:
         with tf.device(target_device):
