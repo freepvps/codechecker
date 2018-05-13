@@ -68,5 +68,5 @@ if __name__ == "__main__":
                     else:
                         valid_count += 1 if v < 0.5 else 0
                 print(i, loss_val, 1.0 - valid_count / len(answers_raw), mean_answers)
-                print(weight_val[0])
+                print(np.array(weight_val).flatten())
             model.save(sess, args.output_file)
