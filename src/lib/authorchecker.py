@@ -3,7 +3,7 @@ from code2features import TokenType
 
 
 class Checker(object):
-    def __init__(self, index_size=TokenType.size * TokenType.size, saver=None, constant_input=None):
+    def __init__(self, index_size=TokenType.size * TokenType.size, constant_input=None):
         checker_classes = 3
         if constant_input is not None:
             self.delta_input = tf.constant(constant_input, dtype=tf.float32)
@@ -11,30 +11,32 @@ class Checker(object):
             self.delta_input = tf.placeholder(shape=(None, index_size), dtype=tf.float32)
         initializer = tf.truncated_normal_initializer(mean=0.0, stddev=1, seed=1234567, dtype=tf.float32)
 
-        self.weights = tf.get_variable(
-            "weights",
-            shape=(index_size,checker_classes),
-            dtype=tf.float32,
-            initializer=initializer
-        )
-        self.postweight = tf.get_variable(
-            "postweight",
-            shape=(checker_classes,1),
-            dtype=tf.float32,
-            initializer=initializer
-        )
-        self.bias = tf.get_variable(
-            "bias",
-            shape=(checker_classes,),
-            dtype=tf.float32,
-            initializer=initializer
-        )
-        self.postbias = tf.get_variable(
-            "postbias",
-            shape=(checker_classes,),
-            dtype=tf.float32,
-            initializer=initializer
-        )
+        with tf.device("/cpu:0"):
+            self.weights = tf.get_variable(
+                "weights",
+                shape=(index_size,checker_classes),
+                dtype=tf.float32,
+                initializer=initializer
+            )
+            self.postweight = tf.get_variable(
+                "postweight",
+                shape=(checker_classes,1),
+                dtype=tf.float32,
+                initializer=initializer
+            )
+            self.bias = tf.get_variable(
+                "bias",
+                shape=(checker_classes,),
+                dtype=tf.float32,
+                initializer=initializer
+            )
+            self.postbias = tf.get_variable(
+                "postbias",
+                shape=(checker_classes,),
+                dtype=tf.float32,
+                initializer=initializer
+            )
+            self.saver = tf.train.Saver()
 
         # x = tf.reduce_sum(tf.abs(tf.multiply(self.delta_input, self.weights)), axis=1)
         # l = tf.nn.sigmoid(tf.add(x, self.bias))
@@ -45,8 +47,6 @@ class Checker(object):
         t = tf.nn.sigmoid(tf.add(t0, self.postbias))
 
         self.answer = tf.subtract(1.0, tf.reduce_mean(t, axis=1))
-        if saver is not None:
-            self.saver = saver
 
     def save(self, sess, path):
         self.saver.save(sess, path)

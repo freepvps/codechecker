@@ -53,10 +53,9 @@ if __name__ == "__main__":
 
     answers = tf.constant(answers_raw)
 
-    saver = tf.train.Saver()
     with tf.Session() as sess:
         with tf.device(target_device):
-            model = lib.authorchecker.Checker(len(deltas[0]),saver=saver, constant_input=np.array(deltas))
+            model = lib.authorchecker.Checker(len(deltas[0]), constant_input=np.array(deltas))
             loss = tf.reduce_mean(tf.pow(tf.subtract(model.get_answer(), answers), 2.0))
 
             optimizer = tf.train.AdamOptimizer(learning_rate=0.1).minimize(loss)
