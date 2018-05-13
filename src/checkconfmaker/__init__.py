@@ -83,11 +83,11 @@ def main():
         with tf.device(target_device):
             model = lib.authorchecker.Checker(len(deltas[0]))
 
-            model_answers = model.apply(tf.constant(deltas, dtype=tf.float32))
+            model_answers = model.apply(tf.constant(np.array(deltas), dtype=tf.float32))
             answers = tf.constant(answers_raw)
             loss = tf.reduce_mean(tf.pow(tf.subtract(model_answers, answers), 2.0))
 
-            model_answers_valid = model.apply(tf.constant(deltas_valid, dtype=tf.float32))
+            model_answers_valid = model.apply(tf.constant(np.array(deltas_valid), dtype=tf.float32))
 
             optimizer = tf.train.AdamOptimizer(learning_rate=0.1).minimize(loss)
             tf.global_variables_initializer().run()
