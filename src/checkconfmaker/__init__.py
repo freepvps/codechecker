@@ -61,5 +61,5 @@ if __name__ == "__main__":
                 _, loss_val, weight_val, bias_val = sess.run((optimizer, loss, model.weights, model.bias), feed_dict={
                     model.get_input(): deltas
                 })
-                print(i, loss_val, mean_answers, weight_val, bias_val)
+                print(i, loss_val, mean_answers)
             model.save(sess, args.output_file)
