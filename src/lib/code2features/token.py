@@ -28,6 +28,9 @@ class TokenType(object):
     is_op_final = field
     is_op_assert = field
     is_op_null = field
+    is_op_public = field
+    is_op_private = field
+    is_op_protected = field
 
     #is_type_byte = field
     #is_type_short = field

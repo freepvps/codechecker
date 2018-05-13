@@ -33,6 +33,10 @@ op_mapping = {
     'assert': TokenType.is_op_assert,
     'null': TokenType.is_op_null,
 
+    'public': TokenType.is_op_public,
+    'private': TokenType.is_op_private,
+    'protected': TokenType.is_op_protected,
+
     'byte': TokenType.is_type,
     'short': TokenType.is_type,
     'int': TokenType.is_type,
