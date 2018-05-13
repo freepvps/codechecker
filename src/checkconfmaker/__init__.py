@@ -52,7 +52,7 @@ def calc_metrics(real_answers, answers):
 def random_group_valid(vecs, labels, prc, seed):
     random.Random(x=seed).shuffle(vecs)
     random.Random(x=seed).shuffle(labels)
-    validation_size = int(len(vecs) * prc / 100)
+    validation_size = int(len(vecs) * prc / 100.0)
 
     data_vecs_valid = vecs[:validation_size]
     data_labels_valid = labels[:validation_size]
@@ -64,9 +64,9 @@ def random_group_valid(vecs, labels, prc, seed):
 def random_repository_valid(vecs, labels, prc, seed):
     reps = list(set(labels))
     random.Random(x=seed).shuffle(reps)
-    validation_size = int(len(reps) * prc / 100)
+    validation_size = int(len(reps) * prc / 100.0)
     valid_reps = set(reps[:validation_size])
-
+    
     data_vecs = [v for i, v in enumerate(vecs) if labels[i] not in valid_reps]
     data_labels = [v for i, v in enumerate(labels) if labels[i] not in valid_reps]
     data_vecs_valid = [v for i, v in enumerate(vecs) if labels[i] in valid_reps]
@@ -98,8 +98,8 @@ def main():
     data_vecs, data_labels, data_vecs_valid, data_labels_valid = validation_selector(
         raw_data_vecs,
         raw_data_labels,
-        args.random_seed,
-        args.validation_prc
+        args.validation_prc,
+        args.random_seed
     )
     print("Train size: {}. Test size: {}".format(len(data_vecs), len(data_vecs_valid)))
 
