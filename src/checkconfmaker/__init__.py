@@ -73,7 +73,7 @@ def main():
     random.Random(x=args.random_seed).shuffle(deltas)
     random.Random(x=args.random_seed).shuffle(answers_raw)
 
-    validation_size = int(len(deltas) * args.validation_prc * 100)
+    validation_size = int(len(deltas) * args.validation_prc / 100)
     deltas_valid = deltas[0:validation_size]
     answers_raw_valid = answers_raw[0:validation_size]
     deltas = deltas[validation_size:]
