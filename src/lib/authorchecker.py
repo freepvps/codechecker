@@ -21,8 +21,11 @@ class Checker(object):
             initializer=initializer
         )
 
+        # x = tf.reduce_sum(tf.abs(tf.multiply(self.delta_input, self.weights)), axis=1)
+        # l = tf.nn.sigmoid(tf.add(x, self.bias))
+        # self.answer = tf.subtract(1.0, l)
         x = tf.matmul(tf.abs(self.delta_input), tf.abs(self.weights))
-        l = tf.reduce_mean(tf.nn.sigmoid(tf.add(x, self.bias)))
+        l = tf.reduce_mean(tf.nn.sigmoid(tf.add(x, self.bias)), axis=1)
         self.answer = tf.subtract(1.0, l)
 
     def save(self, sess, path):
