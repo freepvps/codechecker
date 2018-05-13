@@ -45,7 +45,7 @@ def make_index(sentences):
     for i, v1 in enumerate(features_vecs):
         for j, v2 in enumerate(features_vecs):
             if features_vecs[i] is None or features_vecs[j] is None:
-                dist_matrix[i][j] = 10.0
+                dist_matrix[i][j] = 0.0 if i == j else 1000000.0
             else:
                 dist_matrix[i][j] = np.linalg.norm(v1 - v2)
     probs = [distance_to_probability(v, sigm) for v in dist_matrix]
