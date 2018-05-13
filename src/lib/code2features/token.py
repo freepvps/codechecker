@@ -17,6 +17,7 @@ class TokenType(object):
     is_dot = field # .
     is_comma = field # ,
     is_dotcomma = field # ;
+    is_dog = field # @
 
     is_op_for = field
     is_op_if = field
@@ -24,6 +25,8 @@ class TokenType(object):
     is_op_try = field
     is_op_catch = field
     is_op_finally = field
+    is_op_final = field
+    is_op_assert = field
 
     is_camel_case_word = field
     is_lower_case_word = field

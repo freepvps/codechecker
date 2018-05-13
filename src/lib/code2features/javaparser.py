@@ -18,6 +18,8 @@ char_mapping = {
     '.': TokenType.is_dot,
     ',': TokenType.is_comma,
     ';': TokenType.is_dotcomma,
+
+    '@': TokenType.is_dog
 }
 
 op_mapping = {
@@ -26,7 +28,9 @@ op_mapping = {
     'while': TokenType.is_op_while,
     'try': TokenType.is_op_try,
     'catch': TokenType.is_op_catch,
-    'finally': TokenType.is_op_finally
+    'finally': TokenType.is_op_finally,
+    'final': TokenType.is_op_final,
+    'assert': TokenType.is_op_assert,
 }
 
 
