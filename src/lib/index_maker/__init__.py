@@ -31,7 +31,7 @@ def make_index(sentences):
     sigm = math.sqrt(10)
 
     features = [map(str, code2features.extract_features(sentence)) for sentence in sentences]
-    w2v_model = Word2Vec(features, size=10, window=20, min_count=2, workers=1)
+    w2v_model = Word2Vec(features, size=30, window=20, min_count=2, workers=1)
 
     vectors = map(np.array, w2v_model.wv.vectors)
     labels = [int(w2v_model.wv.index2word[i]) for i in range(len(vectors))]
@@ -45,7 +45,7 @@ def make_index(sentences):
     for i, v1 in enumerate(features_vecs):
         for j, v2 in enumerate(features_vecs):
             if features_vecs[i] is None or features_vecs[j] is None:
-                dist_matrix[i][j] = 0.0 if i == j else 1000000.0
+                dist_matrix[i][j] = 1000000.0
             else:
                 dist_matrix[i][j] = np.linalg.norm(v1 - v2)
     probs = [distance_to_probability(v, sigm) for v in dist_matrix]
