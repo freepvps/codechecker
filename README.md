@@ -1,2 +1,2 @@
 === Install ===
-pip install --update --user gensim numpy tensorflow
+pip install --upgrade --user gensim numpy tensorflow
