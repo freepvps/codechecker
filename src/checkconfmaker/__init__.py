@@ -75,5 +75,7 @@ if __name__ == "__main__":
                 accuracy = (tp + tn) / (tp + tn + fp + fn)
                 precision = tp / (tp + fp)
                 recall = tp / (tp + fn)
+                if i % 100 == 0:
+                    model.save(sess, args.output_file)
                 print("{}. loss={}, accuracy={}, precision={}, recall={}".format(i, loss_val, accuracy, precision, recall))
         model.save(sess, args.output_file)
