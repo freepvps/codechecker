@@ -70,6 +70,6 @@ if __name__ == "__main__":
                         valid_count += 1 if v < 0.5 else 0
                 if i % 10 == 0:
                     weight_imp = np.array(weight_val).flatten()
-                    print(json.dumps(weight_imp))
+                    print(json.dumps(np.ndarray.tolist(weight_imp)))
                 print(i, loss_val, 1.0 - valid_count / len(answers_raw), mean_answers)
             model.save(sess, args.output_file)
