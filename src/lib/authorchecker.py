@@ -3,12 +3,8 @@ from code2features import TokenType
 
 
 class Checker(object):
-    def __init__(self, index_size=TokenType.size * TokenType.size, constant_input=None):
+    def __init__(self, index_size=TokenType.size * TokenType.size):
         checker_classes = 10
-        if constant_input is not None:
-            self.delta_input = tf.constant(constant_input, dtype=tf.float32)
-        else:
-            self.delta_input = tf.placeholder(shape=(None, index_size), dtype=tf.float32)
         initializer = tf.truncated_normal_initializer(mean=0.0, stddev=1, seed=1234567, dtype=tf.float32)
 
         self.weights = tf.get_variable(
@@ -38,15 +34,16 @@ class Checker(object):
         with tf.device("/cpu:0"):
             self.saver = tf.train.Saver()
 
-        # x = tf.reduce_sum(tf.abs(tf.multiply(self.delta_input, self.weights)), axis=1)
-        # l = tf.nn.sigmoid(tf.add(x, self.bias))
-        # self.answer = tf.subtract(1.0, l)
-        x0 = tf.matmul(tf.abs(self.delta_input), tf.abs(self.weights))
+        self.delta_input = tf.placeholder(shape=(None, index_size), dtype=tf.float32)
+
+        self.answer = self.apply(self.delta_input)
+
+    def apply(self, value):
+        x0 = tf.matmul(tf.abs(value), tf.abs(self.weights))
         x = tf.nn.sigmoid(tf.add(x0, self.bias))
         t0 = tf.matmul(x, self.postweight)
         t = tf.nn.sigmoid(tf.add(t0, self.postbias))
-
-        self.answer = tf.subtract(1.0, tf.reduce_mean(t, axis=1))
+        return tf.subtract(1.0, tf.reduce_mean(t, axis=1))
 
     def save(self, sess, path):
         self.saver.save(sess, path)
