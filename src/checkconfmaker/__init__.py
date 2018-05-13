@@ -67,17 +67,20 @@ def main():
 
     data_vecs, data_labels = load_data(args.dataset_dir, args.files_count)
 
+    random.Random(x=args.random_seed).shuffle(data_vecs)
+    random.Random(x=args.random_seed).shuffle(data_labels)
+
+    validation_size = int(len(data_vecs) * args.validation_prc / 100)
+    print("VALIDATION SIZE={}".format(validation_size))
+    data_vecs_valid = data_vecs[0:validation_size]
+    data_labels_valid = data_labels[0:validation_size]
+    data_vecs = data_vecs[validation_size:]
+    data_labels = data_labels[validation_size:]
+
     deltas = [np.array(v1) - np.array(v2) for v1 in data_vecs for v2 in data_vecs]
     answers_raw = [1.0 if a1 == a2 else 0.0 for a1 in data_labels for a2 in data_labels]
-
-    random.Random(x=args.random_seed).shuffle(deltas)
-    random.Random(x=args.random_seed).shuffle(answers_raw)
-
-    validation_size = int(len(deltas) * args.validation_prc / 100)
-    deltas_valid = deltas[0:validation_size]
-    answers_raw_valid = answers_raw[0:validation_size]
-    deltas = deltas[validation_size:]
-    answers_raw = answers_raw[validation_size:]
+    deltas_valid = [np.array(v1) - np.array(v2) for v1 in data_vecs_valid for v2 in data_vecs_valid]
+    answers_raw_valid = [1.0 if a1 == a2 else 0.0 for a1 in data_labels_valid for a2 in data_labels_valid]
 
     with tf.Session() as sess:
         with tf.device(target_device):
