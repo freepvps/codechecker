@@ -14,8 +14,20 @@ class Checker(object):
             dtype=tf.float32,
             initializer=initializer
         )
+        self.postweight = tf.get_variable(
+            "postweight",
+            shape=(checker_classes,1),
+            dtype=tf.float32,
+            initializer=initializer
+        )
         self.bias = tf.get_variable(
             "bias",
+            shape=(checker_classes,),
+            dtype=tf.float32,
+            initializer=initializer
+        )
+        self.postbias = tf.get_variable(
+            "postbias",
             shape=(checker_classes,),
             dtype=tf.float32,
             initializer=initializer
@@ -24,9 +36,12 @@ class Checker(object):
         # x = tf.reduce_sum(tf.abs(tf.multiply(self.delta_input, self.weights)), axis=1)
         # l = tf.nn.sigmoid(tf.add(x, self.bias))
         # self.answer = tf.subtract(1.0, l)
-        x = tf.matmul(tf.abs(self.delta_input), tf.abs(self.weights))
-        l = tf.reduce_mean(tf.nn.sigmoid(tf.add(x, self.bias)), axis=1)
-        self.answer = tf.subtract(1.0, l)
+        x0 = tf.matmul(tf.abs(self.delta_input), tf.abs(self.weights))
+        x = tf.nn.sigmoid(tf.add(x0, self.bias))
+        t0 = tf.matmul(x, self.postweight)
+        t = tf.reduce_mean(tf.nn.sigmoid(tf.add(t0, self.postbias)), axis=1)
+
+        self.answer = tf.subtract(1.0, t)
 
     def save(self, sess, path):
         tf.train.Saver().save(sess, path)
