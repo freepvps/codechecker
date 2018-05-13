@@ -1,4 +1,5 @@
 import tensorflow as tf
+import math
 from code2features import TokenType
 
 
@@ -6,12 +7,11 @@ class Checker(object):
     def __init__(self, index_size=TokenType.size * TokenType.size):
         initializer = tf.truncated_normal_initializer(mean=0.0, stddev=1, seed=1234567, dtype=tf.float32)
 
-        self.weights = tf.get_variable(
-            "weights",
-            shape=(index_size,),
-            dtype=tf.float32,
-            initializer=initializer
-        )
+        dim = int(math.sqrt(index_size))
+        self.weights_vector = tf.get_variable("weight", shape=(dim, 1), dtype=tf.float32, initializer=initializer)
+        self.weight_pairs = tf.matmul(self.weights_vector, self.weights_vector, transpose_b=True)
+
+        self.weights = tf.reshape(self.weight_pairs, [-1])
         self.bias = tf.get_variable(
             "bias",
             shape=(),
