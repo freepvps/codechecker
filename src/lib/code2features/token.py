@@ -29,10 +29,19 @@ class TokenType(object):
     is_op_assert = field
     is_op_null = field
 
+    is_op_package = field
+    is_op_import = field
+
     is_op_public = field
     is_op_private = field
     is_op_protected = field
 
+    is_op_class = field
+    is_op_interface = field
+    is_op_extends = field
+    is_op_this = field
+
+    is_op_static = field
     is_op_void = field
 
     is_op_set = field

@@ -49,6 +49,15 @@ op_mapping = {
     'private': TokenType.is_op_private,
     'protected': TokenType.is_op_protected,
 
+    'import': TokenType.is_op_import,
+    'package': TokenType.is_op_package,
+
+    'interface': TokenType.is_op_interface,
+    'class': TokenType.is_op_class,
+    'extends': TokenType.is_op_extends,
+    'this': TokenType.is_op_this,
+
+    'static': TokenType.is_op_static,
     'void': TokenType.is_op_void,
 
     'byte': TokenType.is_type_byte,
@@ -59,7 +68,7 @@ op_mapping = {
     'double': TokenType.is_type_double,
     'char': TokenType.is_type_char,
     'String': TokenType.is_type_string,
-    'boolean': TokenType.is_type_boolean
+    'boolean': TokenType.is_type_boolean,
 }
 
 
