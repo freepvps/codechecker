@@ -28,10 +28,10 @@ def make_index(sentences):
     :rtype: list[np.ndarray]
     """
 
-    sigm = math.sqrt(20)
+    sigm = math.sqrt(10)
 
     features = [map(str, code2features.extract_features(sentence)) for sentence in sentences]
-    w2v_model = Word2Vec(features, size=10, window=20, min_count=2, workers=1)
+    w2v_model = Word2Vec(features, size=20, window=50, sg=1, min_count=2, workers=1)
 
     vectors = map(np.array, w2v_model.wv.vectors)
     labels = [int(w2v_model.wv.index2word[i]) for i in range(len(vectors))]
