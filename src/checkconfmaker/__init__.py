@@ -62,8 +62,8 @@ if __name__ == "__main__":
                     model.get_input(): deltas
                 })
                 valid_count = 0.0
-                for i, v in enumerate(answer_val):
-                    if answers_raw[i] > 0.5:
+                for j, v in enumerate(answer_val):
+                    if answers_raw[j] > 0.5:
                         valid_count += 1 if v > 0.5 else 0
                     else:
                         valid_count += 1 if v < 0.5 else 0
