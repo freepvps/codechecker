@@ -39,7 +39,7 @@ class Checker(object):
         x = tf.nn.sigmoid(tf.add(x0, self.bias))
         t0 = tf.matmul(x, self.postweight)
         t = tf.nn.sigmoid(tf.add(t0, self.postbias))
-        return tf.subtract(1.0, tf.reduce_mean(t, axis=1))
+        return tf.subtract(1.0, tf.reduce_mean(x, axis=1))
 
     def save(self, sess, path):
         self.saver.save(sess, path)
