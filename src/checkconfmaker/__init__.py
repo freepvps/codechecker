@@ -101,6 +101,7 @@ def main():
         args.random_seed,
         args.validation_prc
     )
+    print("Train size: {}. Test size: {}".format(len(data_vecs), len(data_vecs_valid)))
 
     deltas = [np.array(v1) - np.array(v2) for v1 in data_vecs for v2 in data_vecs]
     answers_raw = [1.0 if a1 == a2 else 0.0 for a1 in data_labels for a2 in data_labels]
