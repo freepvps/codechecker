@@ -139,7 +139,7 @@ parsers = [
 ]
 
 
-def parse(ts, with_shit=False):
+def parse(ts, with_shit=True):
     """
     :type ts: list[str]
     :param ts: list of raw tokens
