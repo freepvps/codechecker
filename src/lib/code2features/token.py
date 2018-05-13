@@ -22,9 +22,7 @@ class TokenType(object):
     is_op_for = field
     is_op_if = field
     is_op_while = field
-    is_op_try = field
-    is_op_catch = field
-    is_op_finally = field
+    is_op_try_group = field
     is_op_final = field
     is_op_assert = field
     is_op_null = field
@@ -47,17 +45,7 @@ class TokenType(object):
     is_op_set = field
     is_op_math = field
     is_op_binmath = field
-
-    is_type_byte = field
-    is_type_short = field
-    is_type_int = field
-    is_type_long = field
-    is_type_float = field
-    is_type_double = field
-    is_type_boolean = field
-    is_type_char = field
-    is_type_string = field
-    #is_type = field
+    is_type = field
 
     is_camel_case_word = field
     is_lower_case_word = field

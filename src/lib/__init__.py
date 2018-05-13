@@ -1,6 +1,5 @@
 import os
 import index_maker
-import checkconf_maker
 import authorchecker
 
 
@@ -23,4 +22,4 @@ def load_repository(dir_path):
     return codes
 
 
-__all__ = ('index_maker', 'checkconf_maker', 'authorchecker')
+__all__ = ('index_maker', 'authorchecker')

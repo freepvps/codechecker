@@ -38,9 +38,9 @@ op_mapping = {
     'if': TokenType.is_op_if,
     'for': TokenType.is_op_for,
     'while': TokenType.is_op_while,
-    'try': TokenType.is_op_try,
-    'catch': TokenType.is_op_catch,
-    'finally': TokenType.is_op_finally,
+    'try': TokenType.is_op_try_group,
+    'catch': TokenType.is_op_try_group,
+    'finally': TokenType.is_op_try_group,
     'final': TokenType.is_op_final,
     'assert': TokenType.is_op_assert,
     'null': TokenType.is_op_null,
@@ -60,15 +60,15 @@ op_mapping = {
     'static': TokenType.is_op_static,
     'void': TokenType.is_op_void,
 
-    'byte': TokenType.is_type_byte,
-    'short': TokenType.is_type_short,
-    'int': TokenType.is_type_int,
-    'long': TokenType.is_type_long,
-    'float': TokenType.is_type_float,
-    'double': TokenType.is_type_double,
-    'char': TokenType.is_type_char,
-    'String': TokenType.is_type_string,
-    'boolean': TokenType.is_type_boolean,
+    'byte': TokenType.is_type,
+    'short': TokenType.is_type,
+    'int': TokenType.is_type,
+    'long': TokenType.is_type,
+    'float': TokenType.is_type,
+    'double': TokenType.is_type,
+    'char': TokenType.is_type,
+    'String': TokenType.is_type,
+    'boolean': TokenType.is_type
 }
 
 
