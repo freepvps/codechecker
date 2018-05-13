@@ -100,18 +100,19 @@ def main():
                 _, loss_val, answer_val = sess.run((optimizer, loss, model_answers))
                 accuracy, precision, recall = calc_metrics(answers_raw, answer_val)
                 if i % 100 == 0:
-                    if validation_size:
-                        answer_val_valid = sess.run(model_answers_valid)
-                        accuracy_valid, precision_valid, recall_valid = calc_metrics(answers_raw_valid, answer_val_valid)
-                        print("{}. VALIDATION accuracy={}, precision={}, recall={}".format(
-                                i,
-                                accuracy_valid,
-                                precision_valid,
-                                recall_valid
-                            )
-                        )
                     model.save(sess, args.output_file)
                 print("{}. loss={}, accuracy={}, precision={}, recall={}".format(i, loss_val, accuracy, precision, recall))
+                
+                if validation_size:
+                    answer_val_valid = sess.run(model_answers_valid)
+                    accuracy_valid, precision_valid, recall_valid = calc_metrics(answers_raw_valid, answer_val_valid)
+                    print("{}. VALIDATION accuracy={}, precision={}, recall={}".format(
+                        i,
+                        accuracy_valid,
+                        precision_valid,
+                        recall_valid
+                    )
+                    )
         model.save(sess, args.output_file)
 
 if __name__ == "__main__":
