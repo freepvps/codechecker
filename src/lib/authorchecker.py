@@ -11,31 +11,31 @@ class Checker(object):
             self.delta_input = tf.placeholder(shape=(None, index_size), dtype=tf.float32)
         initializer = tf.truncated_normal_initializer(mean=0.0, stddev=1, seed=1234567, dtype=tf.float32)
 
+        self.weights = tf.get_variable(
+            "weights",
+            shape=(index_size, checker_classes),
+            dtype=tf.float32,
+            initializer=initializer
+        )
+        self.postweight = tf.get_variable(
+            "postweight",
+            shape=(checker_classes, 1),
+            dtype=tf.float32,
+            initializer=initializer
+        )
+        self.bias = tf.get_variable(
+            "bias",
+            shape=(checker_classes,),
+            dtype=tf.float32,
+            initializer=initializer
+        )
+        self.postbias = tf.get_variable(
+            "postbias",
+            shape=(checker_classes,),
+            dtype=tf.float32,
+            initializer=initializer
+        )
         with tf.device("/cpu:0"):
-            self.weights = tf.get_variable(
-                "weights",
-                shape=(index_size,checker_classes),
-                dtype=tf.float32,
-                initializer=initializer
-            )
-            self.postweight = tf.get_variable(
-                "postweight",
-                shape=(checker_classes,1),
-                dtype=tf.float32,
-                initializer=initializer
-            )
-            self.bias = tf.get_variable(
-                "bias",
-                shape=(checker_classes,),
-                dtype=tf.float32,
-                initializer=initializer
-            )
-            self.postbias = tf.get_variable(
-                "postbias",
-                shape=(checker_classes,),
-                dtype=tf.float32,
-                initializer=initializer
-            )
             self.saver = tf.train.Saver()
 
         # x = tf.reduce_sum(tf.abs(tf.multiply(self.delta_input, self.weights)), axis=1)
