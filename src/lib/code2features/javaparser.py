@@ -37,6 +37,8 @@ op_mapping = {
     'private': TokenType.is_op_private,
     'protected': TokenType.is_op_protected,
 
+    'void': TokenType.is_op_void,
+
     'byte': TokenType.is_type_byte,
     'short': TokenType.is_type_short,
     'int': TokenType.is_type_int,
