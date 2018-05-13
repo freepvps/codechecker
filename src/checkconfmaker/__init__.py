@@ -66,17 +66,18 @@ def main():
     args = parser.parse_args()
 
     data_vecs, data_labels = load_data(args.dataset_dir, args.files_count)
+    uniq_labels = list(set(data_labels))
 
-    random.Random(x=args.random_seed).shuffle(data_vecs)
-    random.Random(x=args.random_seed).shuffle(data_labels)
+    random.Random(x=args.random_seed).shuffle(uniq_labels)
+    validation_size = int(len(uniq_labels) * args.validation_prc / 100)
+    valid_labels_set = uniq_labels[0:validation_size]
 
-    validation_size = int(len(data_vecs) * args.validation_prc / 100)
     print("VALIDATION SIZE={}".format(validation_size))
-    data_vecs_valid = data_vecs[0:validation_size]
-    data_labels_valid = data_labels[0:validation_size]
-    data_vecs = data_vecs[validation_size:]
-    data_labels = data_labels[validation_size:]
-
+    data_vecs_valid = [v for i, v in enumerate(data_vecs) if data_labels[i] in valid_labels_set]
+    data_labels_valid = [v for i, v in enumerate(data_labels) if data_labels[i] in valid_labels_set]
+    data_vecs = [v for i, v in enumerate(data_vecs) if data_labels[i] not in valid_labels_set]
+    data_labels = [v for i, v in enumerate(data_labels) if data_labels[i] not in valid_labels_set]
+    
     deltas = [np.array(v1) - np.array(v2) for v1 in data_vecs for v2 in data_vecs]
     answers_raw = [1.0 if a1 == a2 else 0.0 for a1 in data_labels for a2 in data_labels]
     deltas_valid = [np.array(v1) - np.array(v2) for v1 in data_vecs_valid for v2 in data_vecs_valid]
