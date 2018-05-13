@@ -51,11 +51,11 @@ if __name__ == "__main__":
 
     mean_answers = np.mean(answers_raw)
 
-    answers = tf.constant(answers_raw)
 
     with tf.Session() as sess:
         with tf.device(target_device):
             model = lib.authorchecker.Checker(len(deltas[0]), constant_input=np.array(deltas))
+            answers = tf.constant(answers_raw)
             loss = tf.reduce_mean(tf.pow(tf.subtract(model.get_answer(), answers), 2.0))
 
             optimizer = tf.train.AdamOptimizer(learning_rate=0.1).minimize(loss)
