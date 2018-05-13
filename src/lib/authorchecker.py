@@ -4,7 +4,7 @@ from code2features import TokenType
 
 class Checker(object):
     def __init__(self, index_size=TokenType.size * TokenType.size):
-        checker_classes = 5
+        checker_classes = 2
         initializer = tf.truncated_normal_initializer(mean=0.0, stddev=1, seed=1234567, dtype=tf.float32)
 
         self.weights = tf.get_variable(
