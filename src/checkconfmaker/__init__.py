@@ -62,10 +62,10 @@ if __name__ == "__main__":
                 _, loss_val, answer_val = sess.run((optimizer, loss, model.answer), feed_dict={
                     model.get_input(): deltas
                 })
-                tp = 0.0
-                tn = 0.0
-                fp = 0.0
-                fn = 0.0
+                tp = 0.00001
+                tn = 0.00001
+                fp = 0.00001
+                fn = 0.00001
                 for j, v in enumerate(answer_val):
                     if answers_raw[j] > 0.5:
                         is_valid = 1 if v > 0.5 else 0
