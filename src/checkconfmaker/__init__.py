@@ -66,7 +66,7 @@ def random_repository_valid(vecs, labels, prc, seed):
     random.Random(x=seed).shuffle(reps)
     validation_size = int(len(reps) * prc / 100.0)
     valid_reps = set(reps[:validation_size])
-    
+
     data_vecs = [v for i, v in enumerate(vecs) if labels[i] not in valid_reps]
     data_labels = [v for i, v in enumerate(labels) if labels[i] not in valid_reps]
     data_vecs_valid = [v for i, v in enumerate(vecs) if labels[i] in valid_reps]
@@ -118,7 +118,7 @@ def main():
             loss = tf.reduce_mean(tf.pow(tf.subtract(model_answers, answers), 2.0))
 
             model_answers_valid = None
-            if validation_size:
+            if len(data_vecs_valid):
                 model_answers_valid = model.apply(tf.constant(np.array(deltas_valid), dtype=tf.float32))
 
             optimizer = tf.train.AdamOptimizer(learning_rate=0.1).minimize(loss)
@@ -129,7 +129,7 @@ def main():
                 accuracy, precision, recall = cur_state = calc_metrics(answers_raw, answer_val)
                 print("{}. loss={}, accuracy={}, precision={}, recall={}".format(i, loss_val, accuracy, precision, recall))
 
-                if validation_size:
+                if len(data_vecs_valid):
                     answer_val_valid = sess.run(model_answers_valid)
                     accuracy_valid, precision_valid, recall_valid = cur_state = calc_metrics(answers_raw_valid, answer_val_valid)
                     print(
