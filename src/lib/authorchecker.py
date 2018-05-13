@@ -3,7 +3,7 @@ from code2features import TokenType
 
 
 class Checker(object):
-    def __init__(self, index_size=TokenType.size * TokenType.size, constant_input=None):
+    def __init__(self, index_size=TokenType.size * TokenType.size, saver=None, constant_input=None):
         checker_classes = 3
         if constant_input is not None:
             self.delta_input = tf.constant(constant_input, dtype=tf.float32)
@@ -45,7 +45,8 @@ class Checker(object):
         t = tf.nn.sigmoid(tf.add(t0, self.postbias))
 
         self.answer = tf.subtract(1.0, tf.reduce_mean(t, axis=1))
-        self.saver = tf.train.Saver()
+        if saver is not None:
+            self.saver = saver
 
     def save(self, sess, path):
         self.saver.save(sess, path)
