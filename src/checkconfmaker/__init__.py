@@ -94,7 +94,7 @@ def main():
             optimizer = tf.train.AdamOptimizer(learning_rate=0.1).minimize(loss)
             tf.global_variables_initializer().run()
             for i in range(10000):
-                _, loss_val, answer_val = sess.run((optimizer, loss, model.answer))
+                _, loss_val, answer_val = sess.run((optimizer, loss, model_answers))
                 accuracy, precision, recall = calc_metrics(answers_raw, answer_val)
                 if i % 100 == 0:
                     if validation_size:

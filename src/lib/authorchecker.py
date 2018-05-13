@@ -34,10 +34,6 @@ class Checker(object):
         with tf.device("/cpu:0"):
             self.saver = tf.train.Saver()
 
-        self.delta_input = tf.placeholder(shape=(None, index_size), dtype=tf.float32)
-
-        self.answer = self.apply(self.delta_input)
-
     def apply(self, value):
         x0 = tf.matmul(tf.abs(value), tf.abs(self.weights))
         x = tf.nn.sigmoid(tf.add(x0, self.bias))
@@ -53,6 +49,3 @@ class Checker(object):
 
     def get_input(self):
         return self.delta_input
-
-    def get_answer(self):
-        return self.answer
