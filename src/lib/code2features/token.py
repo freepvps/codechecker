@@ -1,4 +1,5 @@
 field = "TOKEN_TYPE_FIELD"
+ignorefield = "TOKEN_TYPE_FIELD_IGNORE"
 
 
 class TokenType(object):
@@ -9,8 +10,8 @@ class TokenType(object):
     is_newline = field
     is_bracket_s_1 = field # {
     is_bracket_e_1 = field # }
-    is_bracket_s_2 = field # [
-    is_bracket_e_2 = field # ]
+    is_bracket_s_2 = ignorefield # [
+    is_bracket_e_2 = ignorefield # ]
     is_bracket_s_3 = field # (
     is_bracket_e_3 = field # )
     is_dot = field # .
@@ -21,7 +22,7 @@ class TokenType(object):
     is_op_if = field
     is_op_while = field
     is_op_try = field
-    is_op_catch = field
+    is_op_catch = ignorefield
     is_op_finally = field
 
     is_camel_case_word = field
@@ -34,7 +35,7 @@ class TokenType(object):
     is_long_lower_word = field # > 7
     is_long_upper_word = field # > 7
 
-    is_text = field
+    is_text = ignorefield
 
     is_short_comment = field
     is_long_comment = field
@@ -47,3 +48,6 @@ class TokenType(object):
             locals()[k] = size
             names[size] = k
             size += 1
+    for k, v in sorted(locals().iteritems()):
+        if v == ignorefield:
+            locals()[k] = is_shit
