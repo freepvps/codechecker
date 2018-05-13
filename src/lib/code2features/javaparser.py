@@ -37,15 +37,15 @@ op_mapping = {
     'private': TokenType.is_op_private,
     'protected': TokenType.is_op_protected,
 
-    'byte': TokenType.is_type,
-    'short': TokenType.is_type,
-    'int': TokenType.is_type,
-    'long': TokenType.is_type,
-    'float': TokenType.is_type,
-    'double': TokenType.is_type,
-    'char': TokenType.is_type,
-    'String': TokenType.is_type,
-    'boolean': TokenType.is_type,
+    'byte': TokenType.is_type_byte,
+    'short': TokenType.is_type_short,
+    'int': TokenType.is_type_int,
+    'long': TokenType.is_type_long,
+    'float': TokenType.is_type_float,
+    'double': TokenType.is_type_double,
+    'char': TokenType.is_type_char,
+    'String': TokenType.is_type_string,
+    'boolean': TokenType.is_type_boolean,
 }
 
 
