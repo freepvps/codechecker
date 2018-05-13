@@ -27,6 +27,18 @@ class TokenType(object):
     is_op_finally = field
     is_op_final = field
     is_op_assert = field
+    is_op_null = field
+
+    #is_type_byte = field
+    #is_type_short = field
+    #is_type_int = field
+    #is_type_long = field
+    #is_type_float = field
+    #is_type_double = field
+    #is_type_boolean = field
+    #is_type_char = field
+    #is_type_string = field
+    is_type = field
 
     is_camel_case_word = field
     is_lower_case_word = field

@@ -31,6 +31,17 @@ op_mapping = {
     'finally': TokenType.is_op_finally,
     'final': TokenType.is_op_final,
     'assert': TokenType.is_op_assert,
+    'null': TokenType.is_op_null,
+
+    'byte': TokenType.is_type,
+    'short': TokenType.is_type,
+    'int': TokenType.is_type,
+    'long': TokenType.is_type,
+    'float': TokenType.is_type,
+    'double': TokenType.is_type,
+    'char': TokenType.is_type,
+    'String': TokenType.is_type,
+    'boolean': TokenType.is_type,
 }
 
 
