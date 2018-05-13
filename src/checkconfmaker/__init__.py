@@ -105,11 +105,13 @@ def main():
                 if validation_size:
                     answer_val_valid = sess.run(model_answers_valid)
                     accuracy_valid, precision_valid, recall_valid = cur_state = calc_metrics(answers_raw_valid, answer_val_valid)
-                    print("{}. VALIDATION accuracy={}, precision={}, recall={}".format(
+                    print(
+                        "{}. VALIDATION accuracy={}, precision={}, recall={}, perfect={}".format(
                             i,
                             accuracy_valid,
                             precision_valid,
-                            recall_valid
+                            recall_valid,
+                            perfect_state
                         )
                     )
                 if i % 100 == 0 and cur_state > perfect_state:
