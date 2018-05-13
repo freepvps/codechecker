@@ -47,10 +47,7 @@ if __name__ == "__main__":
     deltas = [np.array(v1) - np.array(v2) for v1 in data_vecs for v2 in data_vecs]
     answers_raw = [1.0 if a1 == a2 else 0.0 for a1 in data_labels for a2 in data_labels]
 
-    print(len(deltas))
-
     mean_answers = np.mean(answers_raw)
-
 
     with tf.Session() as sess:
         with tf.device(target_device):
@@ -60,7 +57,7 @@ if __name__ == "__main__":
 
             optimizer = tf.train.AdamOptimizer(learning_rate=0.1).minimize(loss)
             tf.global_variables_initializer().run()
-            for i in range(1000):
+            for i in range(10000):
                 _, loss_val, answer_val = sess.run((optimizer, loss, model.answer))
                 tp = 0.00001
                 tn = 0.00001

@@ -4,7 +4,7 @@ from code2features import TokenType
 
 class Checker(object):
     def __init__(self, index_size=TokenType.size * TokenType.size, constant_input=None):
-        checker_classes = 3
+        checker_classes = 10
         if constant_input is not None:
             self.delta_input = tf.constant(constant_input, dtype=tf.float32)
         else:
