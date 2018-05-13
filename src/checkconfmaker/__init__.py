@@ -48,11 +48,11 @@ if __name__ == "__main__":
     answers_raw = [1.0 if a1 == a2 else 0.0 for a1 in data_labels for a2 in data_labels]
     mean_answers = np.mean(answers_raw)
 
+    answers = tf.constant(answers_raw)
+
+    model = lib.authorchecker.Checker(len(deltas[0]))
+
     with tf.device(target_device):
-        answers = tf.constant(answers_raw)
-
-        model = lib.authorchecker.Checker(len(deltas[0]))
-
         loss = tf.reduce_mean(tf.pow(tf.subtract(model.get_answer(), answers), 2.0))
 
         optimizer = tf.train.AdamOptimizer(learning_rate=0.1).minimize(loss)
@@ -63,13 +63,24 @@ if __name__ == "__main__":
                     model.get_input(): deltas
                 })
                 valid_count = 0.0
+                valid_pos = 0.0
+                valid_neg = 0.0
                 for j, v in enumerate(answer_val):
                     if answers_raw[j] > 0.5:
-                        valid_count += 1 if v > 0.5 else 0
+                        is_valid = 1 if v > 0.5 else 0
+                        valid_count += is_valid
+                        valid_pos += is_valid
+
                     else:
-                        valid_count += 1 if v < 0.5 else 0
+                        is_valid = 1 if v < 0.5 else 0
+                        valid_count += is_valid
+                        valid_neg += is_valid
+                valid_count = valid_count / len(answers_raw)
+                valid_pos = valid_pos / len([_ for _ in answers_raw if _ > 0.5])
+                valid_neg = valid_neg / len([_ for _ in answers_raw if _ < 0.5])
+
                 if i % 10 == 0:
                     weight_imp = np.array(weight_val).flatten()
                     print(json.dumps(np.ndarray.tolist(weight_imp)))
-                print(i, loss_val, 1.0 - valid_count / len(answers_raw), mean_answers)
-            model.save(sess, args.output_file)
+                print(i, loss_val, 1.0 - valid_count, 1.0 - valid_pos, 1.0 - valid_neg, mean_answers)
+        model.save(sess, args.output_file)

@@ -42,12 +42,13 @@ class Checker(object):
         t = tf.nn.sigmoid(tf.add(t0, self.postbias))
 
         self.answer = tf.subtract(1.0, tf.reduce_mean(x, axis=1))
+        self.saver = tf.train.Saver()
 
     def save(self, sess, path):
-        tf.train.Saver().save(sess, path)
+        self.saver.save(sess, path)
 
     def restore(self, sess, path):
-        tf.train.Saver().restore(sess, path)
+        self.saver.restore(sess, path)
 
     def get_input(self):
         return self.delta_input
