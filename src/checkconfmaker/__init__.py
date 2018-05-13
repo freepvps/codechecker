@@ -49,6 +49,32 @@ def calc_metrics(real_answers, answers):
     return accuracy, precision, recall
 
 
+def random_group_valid(vecs, labels, prc, seed):
+    random.Random(x=seed).shuffle(vecs)
+    random.Random(x=seed).shuffle(labels)
+    validation_size = int(len(vecs) * prc / 100)
+
+    data_vecs_valid = vecs[:validation_size]
+    data_labels_valid = labels[:validation_size]
+    data_vecs = vecs[validation_size:]
+    data_labels = labels[validation_size:]
+    return data_vecs, data_labels, data_vecs_valid, data_labels_valid
+
+
+def random_repository_valid(vecs, labels, prc, seed):
+    reps = list(set(labels))
+    random.Random(x=seed).shuffle(reps)
+    validation_size = int(len(reps) * prc / 100)
+    valid_reps = set(reps[:validation_size])
+
+    data_vecs = [v for i, v in enumerate(vecs) if labels[i] not in valid_reps]
+    data_labels = [v for i, v in enumerate(labels) if labels[i] not in valid_reps]
+    data_vecs_valid = [v for i, v in enumerate(vecs) if labels[i] in valid_reps]
+    data_labels_valid = [v for i, v in enumerate(labels) if labels[i] in valid_reps]
+
+    return data_vecs, data_labels, data_vecs_valid, data_labels_valid
+
+
 def main():
     def get_available_gpus():
         local_device_protos = device_lib.list_local_devices()
@@ -63,22 +89,22 @@ def main():
     parser.add_argument("-o", required=True, dest="output_file", help="Output model")
     parser.add_argument("-v", required=False, type=float, dest="validation_prc", help="Validation %", default=0.0)
     parser.add_argument("-r", required=False, type=int, dest="random_seed", help="Random seed for validation", default=1234567)
+    parser.add_argument("-t", required=False, type=str, choices=["group", "repository"], dest="validation_type", help="Validation type", default="group")
     args = parser.parse_args()
 
-    data_vecs, data_labels = load_data(args.dataset_dir, args.files_count)
+    raw_data_vecs, raw_data_labels = load_data(args.dataset_dir, args.files_count)
+    validation_selector = random_group_valid if args.validation_type == "group" else random_repository_valid
 
-    random.Random(x=args.random_seed).shuffle(data_vecs)
-    random.Random(x=args.random_seed).shuffle(data_labels)
-
-    validation_size = int(len(data_vecs) * args.validation_prc / 100)
-    print("VALIDATION SIZE={}".format(validation_size))
-    data_vecs_valid = data_vecs[0:validation_size]
-    data_labels_valid = data_labels[0:validation_size]
-    data_vecs = data_vecs[validation_size:]
-    data_labels = data_labels[validation_size:]
+    data_vecs, data_labels, data_vecs_valid, data_labels_valid = validation_selector(
+        raw_data_vecs,
+        raw_data_labels,
+        args.random_seed,
+        args.validation_prc
+    )
 
     deltas = [np.array(v1) - np.array(v2) for v1 in data_vecs for v2 in data_vecs]
     answers_raw = [1.0 if a1 == a2 else 0.0 for a1 in data_labels for a2 in data_labels]
+
     deltas_valid = [np.array(v1) - np.array(v2) for v1 in data_vecs_valid for v2 in data_vecs_valid]
     answers_raw_valid = [1.0 if a1 == a2 else 0.0 for a1 in data_labels_valid for a2 in data_labels_valid]
 
