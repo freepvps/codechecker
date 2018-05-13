@@ -62,7 +62,7 @@ if __name__ == "__main__":
             optimizer = tf.train.AdamOptimizer(learning_rate=0.1).minimize(loss)
             tf.global_variables_initializer().run()
             for i in range(1000):
-                _, loss_val, answer_val = sess.run((optimizer, optimizer, loss, model.answer), feed_dict={
+                _, loss_val, answer_val = sess.run((optimizer, loss, model.answer), feed_dict={
                     model.get_input(): deltas
                 })
                 tp = 0.00001
