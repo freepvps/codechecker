@@ -4,7 +4,7 @@ from code2features import TokenType
 
 class Checker(object):
     def __init__(self, index_size=TokenType.size):
-        checker_classes = 2
+        checker_classes = 1
         self.delta_input = tf.placeholder(shape=(None, index_size), dtype=tf.float32)
         initializer = tf.truncated_normal_initializer(mean=0.0, stddev=1, seed=1234567, dtype=tf.float32)
 
@@ -14,20 +14,8 @@ class Checker(object):
             dtype=tf.float32,
             initializer=initializer
         )
-        self.postweight = tf.get_variable(
-            "postweight",
-            shape=(checker_classes,1),
-            dtype=tf.float32,
-            initializer=initializer
-        )
         self.bias = tf.get_variable(
             "bias",
-            shape=(checker_classes,),
-            dtype=tf.float32,
-            initializer=initializer
-        )
-        self.postbias = tf.get_variable(
-            "postbias",
             shape=(checker_classes,),
             dtype=tf.float32,
             initializer=initializer
@@ -38,10 +26,8 @@ class Checker(object):
         # self.answer = tf.subtract(1.0, l)
         x0 = tf.matmul(tf.abs(self.delta_input), self.weights)
         x = tf.nn.sigmoid(tf.add(x0, self.bias))
-        t0 = tf.matmul(x, self.postweight)
-        t = tf.reduce_mean(tf.nn.sigmoid(tf.add(t0, self.postbias)), axis=1)
 
-        self.answer = tf.subtract(1.0, t)
+        self.answer = tf.subtract(1.0, tf.reduce_mean(x, axis=1))
 
     def save(self, sess, path):
         tf.train.Saver().save(sess, path)

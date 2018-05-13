@@ -67,5 +67,5 @@ if __name__ == "__main__":
                         valid_count += 1 if v > 0.5 else 0
                     else:
                         valid_count += 1 if v < 0.5 else 0
-                print(i, loss_val, valid_count / len(answers_raw), mean_answers)
+                print(i, loss_val, 1.0 - valid_count / len(answers_raw), mean_answers)
             model.save(sess, args.output_file)
