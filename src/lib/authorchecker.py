@@ -32,5 +32,3 @@ class Checker(object):
     def restore(self, sess, path):
         self.saver.restore(sess, path)
 
-    def get_input(self):
-        return self.delta_input

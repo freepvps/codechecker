@@ -119,5 +119,6 @@ def main():
                     model.save(sess, args.output_file)
         model.save(sess, args.output_file)
 
+
 if __name__ == "__main__":
     main()
