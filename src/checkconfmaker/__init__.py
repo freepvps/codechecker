@@ -69,7 +69,7 @@ if __name__ == "__main__":
                         valid_count += 1 if v < 0.5 else 0
                 if i % 10 == 0:
                     weight_imp = sorted([(value, index) for index, value in enumerate(np.abs(np.array(weight_val).flatten()))])
-                    weight_imp = [x for x in weight_imp if x[1] < lib.code2features.TokenType.size]
+                    weight_imp = [(TokenType.names[x[1]], x[0]) for x in weight_imp if x[1] < lib.code2features.TokenType.size]
                     print(weight_imp)
                 print(i, loss_val, 1.0 - valid_count / len(answers_raw), mean_answers)
             model.save(sess, args.output_file)
