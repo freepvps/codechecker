@@ -22,7 +22,7 @@ class Checker(object):
             self.saver = tf.train.Saver()
 
     def apply(self, value):
-        x0 = tf.reduce_sum(tf.abs(tf.multiply(value, self.weights)), axis=1)
+        x0 = tf.reduce_sum(tf.abs(tf.multiply(value, self.weights), 2.0), axis=1)
         x = tf.nn.sigmoid(tf.add(x0, self.bias))
         return tf.subtract(1.0, x)
 
