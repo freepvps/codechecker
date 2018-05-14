@@ -128,7 +128,7 @@ def main():
             if len(data_vecs_valid):
                 model_answers_valid = model.apply(tf.constant(np.array(deltas_valid), dtype=tf.float32))
 
-            optimizer = tf.train.AdamOptimizer(learning_rate=0.01).minimize(loss)
+            optimizer = tf.train.AdamOptimizer(learning_rate=0.05).minimize(loss)
             tf.global_variables_initializer().run()
             perfect_state = (0.0, 0.0, 0.0)
             for i in range(10000):
