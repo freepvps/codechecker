@@ -7,8 +7,10 @@ import argparse
 import numpy as np
 import tensorflow as tf
 import random
+import json
 
 from tensorflow.python.client import device_lib
+from lib.code2features.token import TokenType
 
 
 def load_data(path, files_count):
@@ -21,7 +23,7 @@ def load_data(path, files_count):
         for j in range(0, len(rep), files_count):
             print("make index for {}-{}".format(i, j / files_count))
             sub_rep = rep[j:j + files_count]
-            if len(sub_rep) == files_count:
+            if len(sub_rep):
                 labels.append(dirs[i])
                 blocks.append(lib.index_maker.make_index(sub_rep))
     return blocks, labels
@@ -109,6 +111,11 @@ def main():
     deltas_valid = [np.array(v1) - np.array(v2) for v1 in data_vecs_valid for v2 in data_vecs_valid]
     answers_raw_valid = [1.0 if a1 == a2 else 0.0 for a1 in data_labels_valid for a2 in data_labels_valid]
 
+    data_mean = np.mean(np.abs(deltas), axis=0)
+    data_var = np.var(np.abs(deltas), axis=0)
+    data_mean_valid = np.mean(np.abs(deltas_valid), axis=0)
+    data_var_valid = np.var(np.abs(deltas_valid), axis=0)
+
     with tf.Session() as sess:
         with tf.device(target_device):
             model = lib.authorchecker.Checker(len(deltas[0]))
@@ -121,7 +128,7 @@ def main():
             if len(data_vecs_valid):
                 model_answers_valid = model.apply(tf.constant(np.array(deltas_valid), dtype=tf.float32))
 
-            optimizer = tf.train.AdamOptimizer(learning_rate=0.1).minimize(loss)
+            optimizer = tf.train.AdamOptimizer(learning_rate=0.01).minimize(loss)
             tf.global_variables_initializer().run()
             perfect_state = (0.0, 0.0, 0.0)
             for i in range(10000):
@@ -142,8 +149,19 @@ def main():
                         )
                     )
                 if i % 100 == 0 and cur_state > perfect_state:
+                    weights = sess.run(model.weights_vector)
+                    result = {
+                        "names": [TokenType.names[i] for i in range(TokenType.size)],
+                        "weights": [float(w[0]) for w in weights],
+                        "mean": np.ndarray.tolist(data_mean),
+                        "mean_valid": np.ndarray.tolist(data_mean_valid),
+                        "var": np.ndarray.tolist(data_var),
+                        "var_valid": np.ndarray.tolist(data_var_valid),
+                    }
                     perfect_state = cur_state
                     model.save(sess, args.output_file)
+                    with open(args.output_file + ".w.json", "w") as of:
+                        json.dump(result, of)
         model.save(sess, args.output_file)
 
 
