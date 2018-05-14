@@ -19,31 +19,7 @@ def distance_to_probability(v, sigm=1.32):
             res[i] = min_prob
     return res
 
-
-used_tokens = [
-    code2features.TokenType.is_comma,
-    code2features.TokenType.is_dot,
-    code2features.TokenType.is_dotcomma,
-    code2features.TokenType.is_float_numeric,
-    code2features.TokenType.is_long_comment,
-    code2features.TokenType.is_long_lower_word,
-    code2features.TokenType.is_long_upper_word,
-    code2features.TokenType.is_lower_case_word,
-    code2features.TokenType.is_lower_case_word_,
-    code2features.TokenType.is_numeric,
-    code2features.TokenType.is_op_assert,
-    code2features.TokenType.is_op_binmath,
-    code2features.TokenType.is_op_extends,
-    code2features.TokenType.is_op_import,
-    code2features.TokenType.is_op_interface,
-    code2features.TokenType.is_op_package,
-    code2features.TokenType.is_op_protected,
-    code2features.TokenType.is_op_while,
-    code2features.TokenType.is_short_comment,
-    code2features.TokenType.is_short_word,
-    code2features.TokenType.is_unknown,
-    code2features.TokenType.is_very_short_word
-]
+used_tokens = [k for k in code2features.TokenType.names.keys()]
 token_to_id = {
     t: i for i, t in enumerate(used_tokens)
 }
