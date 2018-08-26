@@ -1,4 +1,7 @@
-Model using GPU if can
+# Description
+codechecker create matrix index with dimensions NxN for the Java-code projects
+
+P.S. Model using GPU if can
 
 # Install 
 ```
